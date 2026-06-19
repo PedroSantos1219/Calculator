@@ -161,6 +161,7 @@ namespace Calculator
             TintAsFunction(this._clearEntryButton);
             TintAsFunction(this._clearButton);
             TintAsFunction(this._backspaceButton);
+            TintAsOperator(this._divideButton);
 
             // Digit row 7 8 9 ×. Telephone-keypad ordering: 7-9 on top so
             // the eye picks them up first when looking at a result and
@@ -170,18 +171,21 @@ namespace Calculator
             this._digitButtons[8] = MakeGridButton("8", 1, 2);
             this._digitButtons[9] = MakeGridButton("9", 2, 2);
             this._multiplyButton = MakeGridButton("×", 3, 2);
+            TintAsOperator(this._multiplyButton);
 
             // Digit row 4 5 6 with subtract.
             this._digitButtons[4] = MakeGridButton("4", 0, 3);
             this._digitButtons[5] = MakeGridButton("5", 1, 3);
             this._digitButtons[6] = MakeGridButton("6", 2, 3);
             this._subtractButton = MakeGridButton("−", 3, 3);
+            TintAsOperator(this._subtractButton);
 
             // Digit row 1 2 3 with add.
             this._digitButtons[1] = MakeGridButton("1", 0, 4);
             this._digitButtons[2] = MakeGridButton("2", 1, 4);
             this._digitButtons[3] = MakeGridButton("3", 2, 4);
             this._addButton = MakeGridButton("+", 3, 4);
+            TintAsOperator(this._addButton);
 
             // Last row — sign toggle, zero, decimal point, equals. Zero
             // gets the same width as the other digits rather than a double
@@ -250,6 +254,16 @@ namespace Calculator
         {
             button.BackColor = Theme.FunctionButton;
             button.FlatAppearance.MouseOverBackColor = Theme.DigitButton;
+        }
+
+        // Tints a grid button as a binary operator (÷, ×, −, +). Green
+        // accent across the whole right-hand column so the eye finds the
+        // operator chain at a glance.
+        private static void TintAsOperator(System.Windows.Forms.Button button)
+        {
+            button.BackColor = Theme.OperatorButton;
+            button.ForeColor = Theme.PrimaryText;
+            button.FlatAppearance.MouseOverBackColor = Theme.OperatorButtonHover;
         }
 
         // Helper for the memory toolbar so the five slots stay in sync — if
