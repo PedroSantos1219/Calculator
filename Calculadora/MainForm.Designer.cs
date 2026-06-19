@@ -158,6 +158,9 @@ namespace Calculator
             this._clearButton = MakeGridButton("C", 1, 1);
             this._backspaceButton = MakeGridButton("⌫", 2, 1);
             this._divideButton = MakeGridButton("÷", 3, 1);
+            TintAsFunction(this._clearEntryButton);
+            TintAsFunction(this._clearButton);
+            TintAsFunction(this._backspaceButton);
 
             // Digit row 7 8 9 ×. Telephone-keypad ordering: 7-9 on top so
             // the eye picks them up first when looking at a result and
