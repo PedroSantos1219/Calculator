@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Calculator.Engine
 {
@@ -58,6 +59,12 @@ namespace Calculator.Engine
         // Public view of the memory register so the UI can light up the
         // "M" indicator when something is stored.
         public bool HasMemory => _hasMemory;
+
+        // Backing store for the calculation history. Exposed read-only so
+        // the UI can data-bind to it without being able to mutate it
+        // behind the engine's back.
+        private readonly List<HistoryEntry> _history = new();
+        public IReadOnlyList<HistoryEntry> History => _history.AsReadOnly();
 
         public CalculatorEngine()
         {
@@ -184,6 +191,10 @@ namespace Calculator.Engine
 
             decimal result = Evaluate(left, right, op);
 
+            _history.Add(new HistoryEntry(
+                $"{DisplayFormatter.Format(left)} {SymbolFor(op)} {DisplayFormatter.Format(right)}",
+                result));
+
             _accumulator = result;
             _current = result;
             _pendingOperator = BinaryOperator.None;
@@ -191,6 +202,18 @@ namespace Calculator.Engine
             _hasDecimalPoint = false;
             _digitsTyped = 0;
         }
+
+        // Renders a binary operator with its on-screen symbol. The crossed
+        // ×/÷ glyphs match the buttons better than ASCII */-, and keep the
+        // history readable when the user scrolls back through it.
+        private static string SymbolFor(BinaryOperator op) => op switch
+        {
+            BinaryOperator.Add => "+",
+            BinaryOperator.Subtract => "−",
+            BinaryOperator.Multiply => "×",
+            BinaryOperator.Divide => "÷",
+            _ => "?"
+        };
 
         // Squares the current entry in place. Result becomes the new entry
         // so it can either feed into a pending operator or stand on its own.
