@@ -199,6 +199,36 @@ namespace Calculator.Engine
             _digitsTyped = 0;
         }
 
+        // Windows-calculator-style percent. The behaviour is context-aware:
+        //
+        //   100 + 5 %  →  5     (5% of 100, then ready to be added/subtracted)
+        //   100 - 5 %  →  5
+        //   100 * 5 %  →  0.05  (treat % as "divide by 100" for mul/div)
+        //   100 / 5 %  →  0.05
+        //   5 %        →  0     (no context → degenerate case)
+        //
+        // The asymmetry between add/sub and mul/div mirrors the physical
+        // calculator behaviour that users have built muscle memory around.
+        public void Percent()
+        {
+            if (_pendingOperator == BinaryOperator.Add || _pendingOperator == BinaryOperator.Subtract)
+            {
+                _current = _accumulator * _current / 100m;
+            }
+            else if (_pendingOperator == BinaryOperator.Multiply || _pendingOperator == BinaryOperator.Divide)
+            {
+                _current = _current / 100m;
+            }
+            else
+            {
+                _current = 0m;
+            }
+
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+            _digitsTyped = 0;
+        }
+
         // √x. Decimal has no native sqrt so we round-trip through double
         // and accept the precision loss for this single operation. The
         // alternative (a hand-rolled decimal Newton iteration) is not worth
