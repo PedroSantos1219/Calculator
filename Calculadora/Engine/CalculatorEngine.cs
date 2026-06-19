@@ -329,7 +329,16 @@ namespace Calculator.Engine
                 return;
             }
 
-            _current = _memory;
+            RecallValue(_memory);
+        }
+
+        // Promotes an arbitrary value into the current entry slot — used by
+        // MemoryRecall and by the history panel when the user picks an old
+        // result. Treating both paths as "drop a value in and behave as if
+        // it had just been computed" keeps the state machine consistent.
+        public void RecallValue(decimal value)
+        {
+            _current = value;
             _overwriteOnNextDigit = true;
             _hasDecimalPoint = false;
             _digitsTyped = 0;
