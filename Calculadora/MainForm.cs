@@ -52,6 +52,23 @@ namespace Calculator
         {
             _displayLabel.Text = DisplayFormatter.Format(_engine.Display);
             _memoryIndicator.Visible = _engine.HasMemory;
+            _expressionLabel.Text = BuildExpressionPreview();
+        }
+
+        // Builds the strip above the main display. While an operator is
+        // pending we show "{accumulator} {symbol}" — once the user finishes
+        // typing the right-hand operand and presses '=' the preview clears
+        // (the history list holds the full completed expression instead).
+        private string BuildExpressionPreview()
+        {
+            if (!_engine.HasPendingOperator)
+            {
+                return string.Empty;
+            }
+
+            string left = DisplayFormatter.Format(_engine.Accumulator);
+            string symbol = CalculatorEngine.SymbolFor(_engine.PendingOperator);
+            return $"{left} {symbol}";
         }
     }
 }
