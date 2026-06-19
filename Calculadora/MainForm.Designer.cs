@@ -24,6 +24,9 @@ namespace Calculator
         private System.Windows.Forms.Button _backspaceButton = null!;
         private System.Windows.Forms.Button _divideButton = null!;
 
+        private System.Windows.Forms.Button[] _digitButtons = new System.Windows.Forms.Button[10];
+        private System.Windows.Forms.Button _multiplyButton = null!;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && components != null)
@@ -135,6 +138,15 @@ namespace Calculator
             this._clearButton = MakeGridButton("C", 1, 1);
             this._backspaceButton = MakeGridButton("⌫", 2, 1);
             this._divideButton = MakeGridButton("÷", 3, 1);
+
+            // Digit row 7 8 9 ×. Telephone-keypad ordering: 7-9 on top so
+            // the eye picks them up first when looking at a result and
+            // reading downward. The operator stays on the right column
+            // throughout the grid.
+            this._digitButtons[7] = MakeGridButton("7", 0, 2);
+            this._digitButtons[8] = MakeGridButton("8", 1, 2);
+            this._digitButtons[9] = MakeGridButton("9", 2, 2);
+            this._multiplyButton = MakeGridButton("×", 3, 2);
 
             this.ResumeLayout(false);
         }
