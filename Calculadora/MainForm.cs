@@ -26,6 +26,28 @@ namespace Calculator
             _backspaceButton.Click += (_, _) => { _engine.Backspace(); RefreshDisplay(); };
             WireUnaries();
             WireMemoryButtons();
+
+            _clearHistoryButton.Click += (_, _) =>
+            {
+                _engine.ClearHistory();
+                RefreshDisplay();
+            };
+
+            // Double-clicking a history entry recalls its result. Pulling
+            // it via the engine's Recall path keeps the rest of the state
+            // (overwrite flag, decimal flag, digit count) consistent with
+            // a freshly-computed value.
+            _historyList.DoubleClick += (_, _) =>
+            {
+                if (_historyList.SelectedIndex < 0)
+                {
+                    return;
+                }
+
+                var entry = _engine.History[_historyList.SelectedIndex];
+                _engine.RecallValue(entry.Result);
+                RefreshDisplay();
+            };
             _decimalButton.Click += (_, _) =>
             {
                 _engine.AppendDecimalPoint();
