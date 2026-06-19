@@ -78,6 +78,14 @@ namespace Calculator.Engine
         // True while there's an operator waiting on a right-hand operand.
         public bool HasPendingOperator => _pendingOperator != BinaryOperator.None;
 
+        // Wipes the history list. Separated from Clear() because the user
+        // can reasonably want to reset the working calculation without
+        // throwing away what they've already computed.
+        public void ClearHistory()
+        {
+            _history.Clear();
+        }
+
         // Resets every piece of state — the "C" button.
         public void Clear()
         {
