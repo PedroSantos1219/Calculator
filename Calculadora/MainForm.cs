@@ -181,6 +181,20 @@ namespace Calculator
                 e.SuppressKeyPress = true;
                 return;
             }
+
+            // Accept both ',' and '.' for the decimal mark. Some keyboards
+            // send a comma on the numpad's decimal key, others send a dot —
+            // the displayed mark follows the current culture regardless.
+            if (e.KeyCode == Keys.OemPeriod
+                || e.KeyCode == Keys.Decimal
+                || e.KeyCode == Keys.OemComma)
+            {
+                _engine.AppendDecimalPoint();
+                RefreshDisplay();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
         }
 
         private void ShowEngineError(CalculationException error)
