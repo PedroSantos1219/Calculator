@@ -19,6 +19,7 @@ namespace Calculator
         {
             InitializeComponent();
             WireDigitButtons();
+            WireBinaryOperators();
             _decimalButton.Click += (_, _) =>
             {
                 _engine.AppendDecimalPoint();
@@ -42,6 +43,42 @@ namespace Calculator
                     RefreshDisplay();
                 };
             }
+        }
+
+        // Binary operator buttons all funnel through a single handler so
+        // the error-handling and refresh logic stays in one place.
+        private void WireBinaryOperators()
+        {
+            _addButton.Click += (_, _) => ApplyOperator(BinaryOperator.Add);
+            _subtractButton.Click += (_, _) => ApplyOperator(BinaryOperator.Subtract);
+            _multiplyButton.Click += (_, _) => ApplyOperator(BinaryOperator.Multiply);
+            _divideButton.Click += (_, _) => ApplyOperator(BinaryOperator.Divide);
+        }
+
+        private void ApplyOperator(BinaryOperator op)
+        {
+            try
+            {
+                _engine.ApplyBinaryOperator(op);
+            }
+            catch (CalculationException ex)
+            {
+                ShowEngineError(ex);
+                return;
+            }
+
+            RefreshDisplay();
+        }
+
+        // Renders an engine error on the display and resets the engine so
+        // the next press starts cleanly. Keeping the dialog out of this
+        // path (the message lands inline in the display) means a stream of
+        // bad inputs doesn't bury the user under modal popups.
+        private void ShowEngineError(CalculationException error)
+        {
+            _displayLabel.Text = error.Message;
+            _expressionLabel.Text = string.Empty;
+            _engine.Clear();
         }
 
         // Pushes the latest engine state onto the visible controls. Called
