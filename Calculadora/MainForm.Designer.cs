@@ -28,6 +28,9 @@ namespace Calculator
         private System.Windows.Forms.Button _multiplyButton = null!;
         private System.Windows.Forms.Button _subtractButton = null!;
         private System.Windows.Forms.Button _addButton = null!;
+        private System.Windows.Forms.Button _signButton = null!;
+        private System.Windows.Forms.Button _decimalButton = null!;
+        private System.Windows.Forms.Button _equalsButton = null!;
 
         protected override void Dispose(bool disposing)
         {
@@ -161,6 +164,16 @@ namespace Calculator
             this._digitButtons[2] = MakeGridButton("2", 1, 4);
             this._digitButtons[3] = MakeGridButton("3", 2, 4);
             this._addButton = MakeGridButton("+", 3, 4);
+
+            // Last row — sign toggle, zero, decimal point, equals. Zero
+            // gets the same width as the other digits rather than a double
+            // cell; users hit it accurately enough without the wider key
+            // and a uniform grid reads cleaner.
+            this._signButton = MakeGridButton("±", 0, 5);
+            this._digitButtons[0] = MakeGridButton("0", 1, 5);
+            this._decimalButton = MakeGridButton(",", 2, 5);
+            this._equalsButton = MakeGridButton("=", 3, 5);
+            this._equalsButton.Font = new System.Drawing.Font("Segoe UI Semibold", 16F, System.Drawing.FontStyle.Bold);
 
             this.ResumeLayout(false);
         }
