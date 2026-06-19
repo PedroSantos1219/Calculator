@@ -88,6 +88,7 @@ namespace Calculator
             this._displayPanel.Location = new System.Drawing.Point(10, 32);
             this._displayPanel.Size = new System.Drawing.Size(370, 110);
             this._displayPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._displayPanel.BackColor = Theme.DisplayBackground;
             this.Controls.Add(this._displayPanel);
 
             // Main display — the big right-aligned readout. Mono-derived
@@ -100,6 +101,7 @@ namespace Calculator
             this._displayLabel.Location = new System.Drawing.Point(8, 36);
             this._displayLabel.Size = new System.Drawing.Size(354, 66);
             this._displayLabel.AutoEllipsis = true;
+            this._displayLabel.ForeColor = Theme.PrimaryText;
             this._displayPanel.Controls.Add(this._displayLabel);
 
             // Expression preview — the small grey strip that shows what the
