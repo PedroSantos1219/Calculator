@@ -254,6 +254,11 @@ namespace Calculator
             button.FlatAppearance.BorderColor = Theme.ButtonBorder;
             button.FlatAppearance.BorderSize = 1;
             button.FlatAppearance.MouseOverBackColor = Theme.DigitButtonHover;
+            // Suppress the dotted keyboard-focus rectangle the default Win32
+            // button paints — it clashes with the flat dark surface. The
+            // form's own KeyPreview means we still get full keyboard input
+            // without relying on per-button focus.
+            button.TabStop = false;
             this.Controls.Add(button);
             return button;
         }
@@ -292,6 +297,7 @@ namespace Calculator
             button.ForeColor = Theme.MutedText;
             button.FlatAppearance.BorderColor = Theme.ButtonBorder;
             button.FlatAppearance.BorderSize = 1;
+            button.TabStop = false;
             this.Controls.Add(button);
             return button;
         }
