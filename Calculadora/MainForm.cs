@@ -24,6 +24,7 @@ namespace Calculator
             _clearButton.Click += (_, _) => { _engine.Clear(); RefreshDisplay(); };
             _clearEntryButton.Click += (_, _) => { _engine.ClearEntry(); RefreshDisplay(); };
             _backspaceButton.Click += (_, _) => { _engine.Backspace(); RefreshDisplay(); };
+            WireUnaries();
             _decimalButton.Click += (_, _) =>
             {
                 _engine.AppendDecimalPoint();
@@ -93,6 +94,34 @@ namespace Calculator
         // the next press starts cleanly. Keeping the dialog out of this
         // path (the message lands inline in the display) means a stream of
         // bad inputs doesn't bury the user under modal popups.
+        // Unary buttons each call a single engine method and route any
+        // engine error through ShowEngineError, identical to the binary
+        // path but parameterised on an Action so we don't need three
+        // copies of the try/catch.
+        private void WireUnaries()
+        {
+            _squareRootButton.Click += (_, _) => RunUnary(_engine.SquareRoot);
+            _squareButton.Click += (_, _) => RunUnary(_engine.Square);
+            _reciprocalButton.Click += (_, _) => RunUnary(_engine.Reciprocal);
+            _signButton.Click += (_, _) => RunUnary(_engine.ToggleSign);
+            _percentButton.Click += (_, _) => RunUnary(_engine.Percent);
+        }
+
+        private void RunUnary(Action operation)
+        {
+            try
+            {
+                operation();
+            }
+            catch (CalculationException ex)
+            {
+                ShowEngineError(ex);
+                return;
+            }
+
+            RefreshDisplay();
+        }
+
         private void ShowEngineError(CalculationException error)
         {
             _displayLabel.Text = error.Message;
