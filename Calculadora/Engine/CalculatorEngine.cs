@@ -199,6 +199,24 @@ namespace Calculator.Engine
             _digitsTyped = 0;
         }
 
+        // √x. Decimal has no native sqrt so we round-trip through double
+        // and accept the precision loss for this single operation. The
+        // alternative (a hand-rolled decimal Newton iteration) is not worth
+        // the complexity for a four-function calculator.
+        public void SquareRoot()
+        {
+            if (_current < 0m)
+            {
+                throw new CalculationException("Invalid input.");
+            }
+
+            double approximated = Math.Sqrt((double)_current);
+            _current = (decimal)approximated;
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+            _digitsTyped = 0;
+        }
+
         // 1/x. Division by zero short-circuits to a calculation error so
         // the UI can surface it without crashing the app.
         public void Reciprocal()
