@@ -6,6 +6,8 @@ namespace Calculator
         private System.Windows.Forms.Label _signatureLabel = null!;
         private System.Windows.Forms.Panel _displayPanel = null!;
         private System.Windows.Forms.Label _displayLabel = null!;
+        private System.Windows.Forms.Label _expressionLabel = null!;
+        private System.Windows.Forms.Label _memoryIndicator = null!;
 
         protected override void Dispose(bool disposing)
         {
@@ -69,6 +71,29 @@ namespace Calculator
             this._displayLabel.Size = new System.Drawing.Size(354, 66);
             this._displayLabel.AutoEllipsis = true;
             this._displayPanel.Controls.Add(this._displayLabel);
+
+            // Expression preview — the small grey strip that shows what the
+            // engine is about to evaluate (e.g. "12 +"). Lives above the main
+            // display so the eye drops from intent to result.
+            this._expressionLabel = new System.Windows.Forms.Label();
+            this._expressionLabel.Text = string.Empty;
+            this._expressionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._expressionLabel.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this._expressionLabel.Location = new System.Drawing.Point(8, 6);
+            this._expressionLabel.Size = new System.Drawing.Size(354, 28);
+            this._expressionLabel.AutoEllipsis = true;
+            this._displayPanel.Controls.Add(this._expressionLabel);
+
+            // Memory indicator — tiny "M" badge in the top-left. Hidden by
+            // default; the wiring layer makes it visible once HasMemory.
+            this._memoryIndicator = new System.Windows.Forms.Label();
+            this._memoryIndicator.Text = "M";
+            this._memoryIndicator.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this._memoryIndicator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._memoryIndicator.Location = new System.Drawing.Point(8, 8);
+            this._memoryIndicator.Size = new System.Drawing.Size(22, 22);
+            this._memoryIndicator.Visible = false;
+            this._displayPanel.Controls.Add(this._memoryIndicator);
 
             this.ResumeLayout(false);
         }
