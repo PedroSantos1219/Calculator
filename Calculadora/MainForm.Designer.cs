@@ -196,6 +196,10 @@ namespace Calculator
             this._decimalButton = MakeGridButton(",", 2, 5);
             this._equalsButton = MakeGridButton("=", 3, 5);
             this._equalsButton.Font = new System.Drawing.Font("Segoe UI Semibold", 16F, System.Drawing.FontStyle.Bold);
+            this._equalsButton.BackColor = Theme.EqualsButton;
+            this._equalsButton.ForeColor = Theme.PrimaryText;
+            this._equalsButton.FlatAppearance.MouseOverBackColor = Theme.EqualsButtonHover;
+            TintAsFunction(this._signButton);
 
             // History panel — title strip, scrollable list, and a "Clear"
             // button at the bottom. A ListBox is plenty here; a DataGridView
