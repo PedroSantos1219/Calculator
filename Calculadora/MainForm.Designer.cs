@@ -3,6 +3,7 @@ namespace Calculator
     partial class MainForm
     {
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label _signatureLabel = null!;
 
         protected override void Dispose(bool disposing)
         {
@@ -32,6 +33,20 @@ namespace Calculator
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Text = "Calculator";
+
+            // Signature strip across the top. Kept as a single label rather
+            // than baked into the title bar so the credit is visible no
+            // matter how the window chrome is themed by the OS.
+            this._signatureLabel = new System.Windows.Forms.Label();
+            this._signatureLabel.Text = "Made by Pedro Santos";
+            this._signatureLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
+            this._signatureLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._signatureLabel.Location = new System.Drawing.Point(0, 8);
+            this._signatureLabel.Size = new System.Drawing.Size(640, 20);
+            this._signatureLabel.Anchor = System.Windows.Forms.AnchorStyles.Top
+                                        | System.Windows.Forms.AnchorStyles.Left
+                                        | System.Windows.Forms.AnchorStyles.Right;
+            this.Controls.Add(this._signatureLabel);
 
             this.ResumeLayout(false);
         }
