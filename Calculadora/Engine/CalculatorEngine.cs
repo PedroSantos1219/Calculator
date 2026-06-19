@@ -181,6 +181,39 @@ namespace Calculator.Engine
             _digitsTyped = 0;
         }
 
+        // Squares the current entry in place. Result becomes the new entry
+        // so it can either feed into a pending operator or stand on its own.
+        public void Square()
+        {
+            try
+            {
+                _current = checked(_current * _current);
+            }
+            catch (OverflowException ex)
+            {
+                throw new CalculationException("Overflow.", ex);
+            }
+
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+            _digitsTyped = 0;
+        }
+
+        // 1/x. Division by zero short-circuits to a calculation error so
+        // the UI can surface it without crashing the app.
+        public void Reciprocal()
+        {
+            if (_current == 0m)
+            {
+                throw new CalculationException("Cannot divide by zero.");
+            }
+
+            _current = 1m / _current;
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+            _digitsTyped = 0;
+        }
+
         // Flips the sign of the current entry. Doesn't commit the value or
         // touch the pending operator — it's a display-only edit, the same
         // way the +/- key behaves on a physical calculator.
