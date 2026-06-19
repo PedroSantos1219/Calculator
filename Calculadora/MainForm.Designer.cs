@@ -211,6 +211,7 @@ namespace Calculator
             this._historyTitleLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold);
             this._historyTitleLabel.Location = new System.Drawing.Point(395, 32);
             this._historyTitleLabel.Size = new System.Drawing.Size(235, 22);
+            this._historyTitleLabel.ForeColor = Theme.PrimaryText;
             this.Controls.Add(this._historyTitleLabel);
 
             this._historyList = new System.Windows.Forms.ListBox();
@@ -219,6 +220,8 @@ namespace Calculator
             this._historyList.Font = new System.Drawing.Font("Segoe UI", 10F);
             this._historyList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._historyList.IntegralHeight = false;
+            this._historyList.BackColor = Theme.HistoryBackground;
+            this._historyList.ForeColor = Theme.PrimaryText;
             this.Controls.Add(this._historyList);
 
             this._clearHistoryButton = new System.Windows.Forms.Button();
@@ -226,6 +229,10 @@ namespace Calculator
             this._clearHistoryButton.Location = new System.Drawing.Point(395, 555);
             this._clearHistoryButton.Size = new System.Drawing.Size(235, 32);
             this._clearHistoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._clearHistoryButton.BackColor = Theme.MemoryButton;
+            this._clearHistoryButton.ForeColor = Theme.MutedText;
+            this._clearHistoryButton.FlatAppearance.BorderColor = Theme.ButtonBorder;
+            this._clearHistoryButton.FlatAppearance.MouseOverBackColor = Theme.DigitButton;
             this.Controls.Add(this._clearHistoryButton);
 
             this.ResumeLayout(false);
