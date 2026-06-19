@@ -131,6 +131,46 @@ namespace Calculator.Engine
             _hasDecimalPoint = true;
         }
 
+        // Strips the right-most digit from the current entry. After "=" or
+        // an operator press the display holds a committed result rather
+        // than a user-typed value — backspacing into that would silently
+        // destroy state, so this is a no-op in that case.
+        public void Backspace()
+        {
+            if (_overwriteOnNextDigit)
+            {
+                return;
+            }
+
+            if (_hasDecimalPoint && CountFractionalDigits(_current) > 0)
+            {
+                int fractionalDigits = CountFractionalDigits(_current);
+                decimal scale = Pow10(fractionalDigits);
+                _current = Math.Truncate(_current * scale / 10m) / Pow10(fractionalDigits - 1);
+
+                if (CountFractionalDigits(_current) == 0)
+                {
+                    // We just rubbed out the last fractional digit. Drop the
+                    // decimal point too so a follow-up digit lands in the
+                    // ones column instead of re-opening the fraction.
+                    _hasDecimalPoint = false;
+                }
+            }
+            else if (_hasDecimalPoint)
+            {
+                _hasDecimalPoint = false;
+            }
+            else
+            {
+                _current = Math.Truncate(_current / 10m);
+            }
+
+            if (_digitsTyped > 0)
+            {
+                _digitsTyped--;
+            }
+        }
+
         // Counts decimal digits to the right of the point. Decimal's Scale
         // property returns it directly but includes trailing zeros from the
         // representation, which is exactly what we want when picking the
