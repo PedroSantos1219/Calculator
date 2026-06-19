@@ -114,6 +114,7 @@ namespace Calculator
             this._expressionLabel.Location = new System.Drawing.Point(8, 6);
             this._expressionLabel.Size = new System.Drawing.Size(354, 28);
             this._expressionLabel.AutoEllipsis = true;
+            this._expressionLabel.ForeColor = Theme.MutedText;
             this._displayPanel.Controls.Add(this._expressionLabel);
 
             // Memory indicator — tiny "M" badge in the top-left. Hidden by
@@ -125,6 +126,7 @@ namespace Calculator
             this._memoryIndicator.Location = new System.Drawing.Point(8, 8);
             this._memoryIndicator.Size = new System.Drawing.Size(22, 22);
             this._memoryIndicator.Visible = false;
+            this._memoryIndicator.ForeColor = Theme.EqualsButton;
             this._displayPanel.Controls.Add(this._memoryIndicator);
 
             // Memory toolbar — five short, slim buttons that sit between the
