@@ -308,6 +308,11 @@ namespace Calculator.Engine
         // effects (overwrite flag, history, etc.) and produce inconsistent UI.
         private static decimal Evaluate(decimal left, decimal right, BinaryOperator op)
         {
+            if (op == BinaryOperator.Divide && right == 0m)
+            {
+                throw new CalculationException("Cannot divide by zero.");
+            }
+
             return op switch
             {
                 BinaryOperator.Add => left + right,
