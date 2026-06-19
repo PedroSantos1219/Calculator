@@ -21,6 +21,9 @@ namespace Calculator
             WireDigitButtons();
             WireBinaryOperators();
             _equalsButton.Click += (_, _) => CommitEquals();
+            _clearButton.Click += (_, _) => { _engine.Clear(); RefreshDisplay(); };
+            _clearEntryButton.Click += (_, _) => { _engine.ClearEntry(); RefreshDisplay(); };
+            _backspaceButton.Click += (_, _) => { _engine.Backspace(); RefreshDisplay(); };
             _decimalButton.Click += (_, _) =>
             {
                 _engine.AppendDecimalPoint();
