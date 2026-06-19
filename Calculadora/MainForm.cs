@@ -18,7 +18,25 @@ namespace Calculator
         public MainForm()
         {
             InitializeComponent();
+            WireDigitButtons();
             RefreshDisplay();
+        }
+
+        // Attach the same click handler to all ten digit buttons. Capturing
+        // the digit value in the closure is cleaner than a giant switch on
+        // sender — there are only ten of them, and the loop body makes the
+        // mapping obvious at a glance.
+        private void WireDigitButtons()
+        {
+            for (int digit = 0; digit <= 9; digit++)
+            {
+                int captured = digit;
+                _digitButtons[digit].Click += (_, _) =>
+                {
+                    _engine.AppendDigit(captured);
+                    RefreshDisplay();
+                };
+            }
         }
 
         // Pushes the latest engine state onto the visible controls. Called
