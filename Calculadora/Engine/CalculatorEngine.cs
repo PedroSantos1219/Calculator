@@ -181,6 +181,20 @@ namespace Calculator.Engine
             _digitsTyped = 0;
         }
 
+        // Flips the sign of the current entry. Doesn't commit the value or
+        // touch the pending operator — it's a display-only edit, the same
+        // way the +/- key behaves on a physical calculator.
+        public void ToggleSign()
+        {
+            _current = -_current;
+
+            // Once a result is on screen, flipping the sign should still
+            // produce something the user can keep typing onto, so clear the
+            // overwrite flag — otherwise the next digit would wipe the
+            // negated value back out.
+            _overwriteOnNextDigit = false;
+        }
+
         // Records a binary operator press. If an operator was already pending
         // and the user typed a right-hand operand, evaluate it first so chained
         // expressions like 2 + 3 * 4 collapse into the running accumulator the
