@@ -116,6 +116,21 @@ namespace Calculator.Engine
             _digitsTyped++;
         }
 
+        // Turns the decimal point on for the current entry. A second press
+        // is a no-op — we track the flag explicitly so we don't have to scan
+        // the value's string form on every keystroke.
+        public void AppendDecimalPoint()
+        {
+            if (_overwriteOnNextDigit)
+            {
+                _current = 0m;
+                _digitsTyped = 0;
+                _overwriteOnNextDigit = false;
+            }
+
+            _hasDecimalPoint = true;
+        }
+
         // Counts decimal digits to the right of the point. Decimal's Scale
         // property returns it directly but includes trailing zeros from the
         // representation, which is exactly what we want when picking the
