@@ -187,7 +187,7 @@ namespace Calculator
             // the displayed mark follows the current culture regardless.
             if (e.KeyCode == Keys.OemPeriod
                 || e.KeyCode == Keys.Decimal
-                || e.KeyCode == Keys.OemComma)
+                || e.KeyCode == Keys.Oemcomma)
             {
                 _engine.AppendDecimalPoint();
                 RefreshDisplay();
