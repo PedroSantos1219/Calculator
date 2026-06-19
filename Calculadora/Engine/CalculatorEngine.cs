@@ -48,6 +48,17 @@ namespace Calculator.Engine
         private BinaryOperator _repeatOperator;
         private bool _hasRepeat;
 
+        // Single-slot memory register, the same model as M+ / M- / MR / MC
+        // on a desk calculator. A separate flag tracks whether something has
+        // ever been stored so the UI can dim MR/MC when there's nothing to
+        // recall or clear.
+        private decimal _memory;
+        private bool _hasMemory;
+
+        // Public view of the memory register so the UI can light up the
+        // "M" indicator when something is stored.
+        public bool HasMemory => _hasMemory;
+
         public CalculatorEngine()
         {
             _pendingOperator = BinaryOperator.None;
