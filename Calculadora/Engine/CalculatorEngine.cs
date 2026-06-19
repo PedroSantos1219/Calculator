@@ -131,6 +131,48 @@ namespace Calculator.Engine
             _hasDecimalPoint = true;
         }
 
+        // Records a binary operator press. If an operator was already pending
+        // and the user typed a right-hand operand, evaluate it first so chained
+        // expressions like 2 + 3 * 4 collapse into the running accumulator the
+        // way the standard calculator does — left to right, no precedence.
+        public void ApplyBinaryOperator(BinaryOperator op)
+        {
+            if (op == BinaryOperator.None)
+            {
+                throw new ArgumentException("None is not a valid operator press.", nameof(op));
+            }
+
+            if (_pendingOperator != BinaryOperator.None && !_overwriteOnNextDigit)
+            {
+                _accumulator = Evaluate(_accumulator, _current, _pendingOperator);
+                _current = _accumulator;
+            }
+            else
+            {
+                _accumulator = _current;
+            }
+
+            _pendingOperator = op;
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+            _digitsTyped = 0;
+        }
+
+        // The actual arithmetic. Kept private so callers go through the state
+        // machine — direct evaluation outside that flow would skip the side
+        // effects (overwrite flag, history, etc.) and produce inconsistent UI.
+        private static decimal Evaluate(decimal left, decimal right, BinaryOperator op)
+        {
+            return op switch
+            {
+                BinaryOperator.Add => left + right,
+                BinaryOperator.Subtract => left - right,
+                BinaryOperator.Multiply => left * right,
+                BinaryOperator.Divide => left / right,
+                _ => throw new InvalidOperationException($"Unhandled operator: {op}")
+            };
+        }
+
         // Strips the right-most digit from the current entry. After "=" or
         // an operator press the display holds a committed result rather
         // than a user-typed value — backspacing into that would silently
