@@ -63,6 +63,7 @@ namespace Calculator
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.KeyPreview = true;
             this.Text = "Calculator";
 
             // Signature strip across the top. Kept as a single label rather
@@ -177,37 +178,7 @@ namespace Calculator
             this._digitButtons[0] = MakeGridButton("0", 1, 5);
             this._decimalButton = MakeGridButton(",", 2, 5);
             this._equalsButton = MakeGridButton("=", 3, 5);
-            this._equalsButton.Font = new System.Drawing.Font("Segoe UI Semibold", 16F, System.Drawing.FontStyle.Bold);
 
-            // History panel — title strip, scrollable list, and a "Clear"
-            // button at the bottom. A ListBox is plenty here; a DataGridView
-            // would carry the right two-column shape but it's overkill for
-            // a calculator's recall list, and the extra chrome would crowd
-            // a 235px column.
-            this._historyTitleLabel = new System.Windows.Forms.Label();
-            this._historyTitleLabel.Text = "History";
-            this._historyTitleLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold);
-            this._historyTitleLabel.Location = new System.Drawing.Point(395, 32);
-            this._historyTitleLabel.Size = new System.Drawing.Size(235, 22);
-            this.Controls.Add(this._historyTitleLabel);
-
-            this._historyList = new System.Windows.Forms.ListBox();
-            this._historyList.Location = new System.Drawing.Point(395, 56);
-            this._historyList.Size = new System.Drawing.Size(235, 494);
-            this._historyList.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this._historyList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._historyList.IntegralHeight = false;
-            this.Controls.Add(this._historyList);
-
-            this._clearHistoryButton = new System.Windows.Forms.Button();
-            this._clearHistoryButton.Text = "Clear history";
-            this._clearHistoryButton.Location = new System.Drawing.Point(395, 555);
-            this._clearHistoryButton.Size = new System.Drawing.Size(235, 32);
-            this._clearHistoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Controls.Add(this._clearHistoryButton);
-
-            this.ResumeLayout(false);
-        }
 
         // Positions a button on the main 4-column / 6-row grid. Cells are
         // 85x60 with 10px horizontal and 8px vertical gaps. Centralising the

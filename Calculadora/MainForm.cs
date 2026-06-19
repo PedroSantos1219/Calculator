@@ -48,6 +48,8 @@ namespace Calculator
                 _engine.RecallValue(entry.Result);
                 RefreshDisplay();
             };
+
+            this.KeyDown += MainForm_KeyDown;
             _decimalButton.Click += (_, _) =>
             {
                 _engine.AppendDecimalPoint();
@@ -155,6 +157,30 @@ namespace Calculator
             _memoryClearButton.Click += (_, _) => RunUnary(_engine.MemoryClear);
             _memoryAddButton.Click += (_, _) => RunUnary(_engine.MemoryAdd);
             _memorySubtractButton.Click += (_, _) => RunUnary(_engine.MemorySubtract);
+        }
+
+        // Global keyboard handler — KeyPreview is on so we see the keystrokes
+        // before the focused button does. Digits live here; operator and
+        // control keys land in follow-up commits.
+        private void MainForm_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9)
+            {
+                _engine.AppendDigit(e.KeyCode - Keys.D0);
+                RefreshDisplay();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            if (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9)
+            {
+                _engine.AppendDigit(e.KeyCode - Keys.NumPad0);
+                RefreshDisplay();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
         }
 
         private void ShowEngineError(CalculationException error)
