@@ -146,6 +146,10 @@ namespace Calculator
             this._squareRootButton = MakeGridButton("√", 1, 0);
             this._squareButton = MakeGridButton("x²", 2, 0);
             this._reciprocalButton = MakeGridButton("¹⁄ₓ", 3, 0);
+            TintAsFunction(this._percentButton);
+            TintAsFunction(this._squareRootButton);
+            TintAsFunction(this._squareButton);
+            TintAsFunction(this._reciprocalButton);
 
             // Edit / control row. CE/C/⌫ sit next to the divide so the user
             // can rub out a mistake without their hand jumping to a far
@@ -234,6 +238,15 @@ namespace Calculator
             button.FlatAppearance.MouseOverBackColor = Theme.DigitButtonHover;
             this.Controls.Add(button);
             return button;
+        }
+
+        // Tints a grid button as a function key (unary operations like %, √,
+        // x², 1/x). Slightly darker than the default digit gray so the row
+        // visually separates from the digit grid below.
+        private static void TintAsFunction(System.Windows.Forms.Button button)
+        {
+            button.BackColor = Theme.FunctionButton;
+            button.FlatAppearance.MouseOverBackColor = Theme.DigitButton;
         }
 
         // Helper for the memory toolbar so the five slots stay in sync — if
