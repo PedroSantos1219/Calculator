@@ -14,6 +14,11 @@ namespace Calculator
         private System.Windows.Forms.Button _memoryAddButton = null!;
         private System.Windows.Forms.Button _memorySubtractButton = null!;
 
+        private System.Windows.Forms.Button _percentButton = null!;
+        private System.Windows.Forms.Button _squareRootButton = null!;
+        private System.Windows.Forms.Button _squareButton = null!;
+        private System.Windows.Forms.Button _reciprocalButton = null!;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && components != null)
@@ -110,7 +115,30 @@ namespace Calculator
             this._memoryAddButton = MakeMemoryButton("M+", 3);
             this._memorySubtractButton = MakeMemoryButton("M−", 4);
 
+            // Function row — unary operations that act on the current entry.
+            // Sits above the digit grid so the user's hand drops naturally
+            // onto the digits without crossing function keys.
+            this._percentButton = MakeGridButton("%", 0, 0);
+            this._squareRootButton = MakeGridButton("√", 1, 0);
+            this._squareButton = MakeGridButton("x²", 2, 0);
+            this._reciprocalButton = MakeGridButton("¹⁄ₓ", 3, 0);
+
             this.ResumeLayout(false);
+        }
+
+        // Positions a button on the main 4-column / 6-row grid. Cells are
+        // 85x60 with 10px horizontal and 8px vertical gaps. Centralising the
+        // arithmetic means a future grid resize is a one-line change.
+        private System.Windows.Forms.Button MakeGridButton(string text, int column, int row)
+        {
+            var button = new System.Windows.Forms.Button();
+            button.Text = text;
+            button.Font = new System.Drawing.Font("Segoe UI", 14F);
+            button.Location = new System.Drawing.Point(10 + column * 95, 190 + row * 68);
+            button.Size = new System.Drawing.Size(85, 60);
+            button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Controls.Add(button);
+            return button;
         }
 
         // Helper for the memory toolbar so the five slots stay in sync — if
