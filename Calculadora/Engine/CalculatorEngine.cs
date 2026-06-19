@@ -131,6 +131,25 @@ namespace Calculator.Engine
             _hasDecimalPoint = true;
         }
 
+        // Evaluates the pending operation. Pressing "=" with no pending
+        // operator is a no-op — there is nothing to commit.
+        public void Equals()
+        {
+            if (_pendingOperator == BinaryOperator.None)
+            {
+                return;
+            }
+
+            decimal result = Evaluate(_accumulator, _current, _pendingOperator);
+
+            _accumulator = result;
+            _current = result;
+            _pendingOperator = BinaryOperator.None;
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+            _digitsTyped = 0;
+        }
+
         // Records a binary operator press. If an operator was already pending
         // and the user typed a right-hand operand, evaluate it first so chained
         // expressions like 2 + 3 * 4 collapse into the running accumulator the
