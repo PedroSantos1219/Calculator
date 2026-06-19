@@ -78,6 +78,12 @@ namespace Calculator.Engine
         // True while there's an operator waiting on a right-hand operand.
         public bool HasPendingOperator => _pendingOperator != BinaryOperator.None;
 
+        // Read-only peeks the UI uses to paint the expression preview ("12 +").
+        // Exposing them as get-only properties keeps the engine the single
+        // source of truth — the UI never holds a copy of the state.
+        public decimal Accumulator => _accumulator;
+        public BinaryOperator PendingOperator => _pendingOperator;
+
         // Wipes the history list. Separated from Clear() because the user
         // can reasonably want to reset the working calculation without
         // throwing away what they've already computed.
@@ -214,7 +220,7 @@ namespace Calculator.Engine
         // Renders a binary operator with its on-screen symbol. The crossed
         // ×/÷ glyphs match the buttons better than ASCII */-, and keep the
         // history readable when the user scrolls back through it.
-        private static string SymbolFor(BinaryOperator op) => op switch
+        public static string SymbolFor(BinaryOperator op) => op switch
         {
             BinaryOperator.Add => "+",
             BinaryOperator.Subtract => "−",
