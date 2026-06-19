@@ -273,6 +273,38 @@ namespace Calculator.Engine
             _digitsTyped = 0;
         }
 
+        // MS — store. Overwrites whatever was in memory with the current
+        // entry. Decimal copies by value so this is genuinely independent
+        // of subsequent edits to _current.
+        public void MemoryStore()
+        {
+            _memory = _current;
+            _hasMemory = true;
+        }
+
+        // MR — recall. Pushes the memory value into the entry slot and
+        // treats it like a freshly-typed result, so the next digit press
+        // overwrites it rather than appending.
+        public void MemoryRecall()
+        {
+            if (!_hasMemory)
+            {
+                return;
+            }
+
+            _current = _memory;
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+            _digitsTyped = 0;
+        }
+
+        // MC — clear the memory register entirely.
+        public void MemoryClear()
+        {
+            _memory = 0m;
+            _hasMemory = false;
+        }
+
         // Flips the sign of the current entry. Doesn't commit the value or
         // touch the pending operator — it's a display-only edit, the same
         // way the +/- key behaves on a physical calculator.
