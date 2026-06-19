@@ -242,6 +242,10 @@ namespace Calculator
             button.Location = new System.Drawing.Point(10 + slot * 75, 148);
             button.Size = new System.Drawing.Size(70, 32);
             button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            button.BackColor = Theme.MemoryButton;
+            button.ForeColor = Theme.MutedText;
+            button.FlatAppearance.BorderColor = Theme.ButtonBorder;
+            button.FlatAppearance.BorderSize = 1;
             this.Controls.Add(button);
             return button;
         }
