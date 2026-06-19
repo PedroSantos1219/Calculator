@@ -8,6 +8,11 @@ namespace Calculator
         private System.Windows.Forms.Label _displayLabel = null!;
         private System.Windows.Forms.Label _expressionLabel = null!;
         private System.Windows.Forms.Label _memoryIndicator = null!;
+        private System.Windows.Forms.Button _memoryClearButton = null!;
+        private System.Windows.Forms.Button _memoryRecallButton = null!;
+        private System.Windows.Forms.Button _memoryStoreButton = null!;
+        private System.Windows.Forms.Button _memoryAddButton = null!;
+        private System.Windows.Forms.Button _memorySubtractButton = null!;
 
         protected override void Dispose(bool disposing)
         {
@@ -95,7 +100,32 @@ namespace Calculator
             this._memoryIndicator.Visible = false;
             this._displayPanel.Controls.Add(this._memoryIndicator);
 
+            // Memory toolbar — five short, slim buttons that sit between the
+            // display and the main grid. Visually distinct from the main
+            // grid (shorter height, lighter weight) so the eye skips past
+            // them when scanning for digits.
+            this._memoryClearButton = MakeMemoryButton("MC", 0);
+            this._memoryRecallButton = MakeMemoryButton("MR", 1);
+            this._memoryStoreButton = MakeMemoryButton("MS", 2);
+            this._memoryAddButton = MakeMemoryButton("M+", 3);
+            this._memorySubtractButton = MakeMemoryButton("M−", 4);
+
             this.ResumeLayout(false);
+        }
+
+        // Helper for the memory toolbar so the five slots stay in sync — if
+        // we ever want to recolour or resize the row we change one method,
+        // not five button blocks.
+        private System.Windows.Forms.Button MakeMemoryButton(string text, int slot)
+        {
+            var button = new System.Windows.Forms.Button();
+            button.Text = text;
+            button.Font = new System.Drawing.Font("Segoe UI", 9F);
+            button.Location = new System.Drawing.Point(10 + slot * 75, 148);
+            button.Size = new System.Drawing.Size(70, 32);
+            button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Controls.Add(button);
+            return button;
         }
 
         #endregion
