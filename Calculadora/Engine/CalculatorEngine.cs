@@ -313,14 +313,21 @@ namespace Calculator.Engine
                 throw new CalculationException("Cannot divide by zero.");
             }
 
-            return op switch
+            try
             {
-                BinaryOperator.Add => left + right,
-                BinaryOperator.Subtract => left - right,
-                BinaryOperator.Multiply => left * right,
-                BinaryOperator.Divide => left / right,
-                _ => throw new InvalidOperationException($"Unhandled operator: {op}")
-            };
+                return op switch
+                {
+                    BinaryOperator.Add => left + right,
+                    BinaryOperator.Subtract => left - right,
+                    BinaryOperator.Multiply => left * right,
+                    BinaryOperator.Divide => left / right,
+                    _ => throw new InvalidOperationException($"Unhandled operator: {op}")
+                };
+            }
+            catch (OverflowException ex)
+            {
+                throw new CalculationException("Overflow.", ex);
+            }
         }
 
         // Strips the right-most digit from the current entry. After "=" or
