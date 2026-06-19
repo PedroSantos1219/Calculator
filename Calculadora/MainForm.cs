@@ -151,6 +151,35 @@ namespace Calculator
             _displayLabel.Text = DisplayFormatter.Format(_engine.Display);
             _memoryIndicator.Visible = _engine.HasMemory;
             _expressionLabel.Text = BuildExpressionPreview();
+            RefreshHistoryList();
+        }
+
+        // Reflects the engine's history list onto the ListBox. We rebuild
+        // from scratch instead of diffing — the list is short, the rebuild
+        // cost is negligible, and any other approach is one place where
+        // the UI and engine can drift apart silently.
+        private void RefreshHistoryList()
+        {
+            _historyList.BeginUpdate();
+            try
+            {
+                _historyList.Items.Clear();
+                foreach (var entry in _engine.History)
+                {
+                    _historyList.Items.Add($"{entry.Expression} = {DisplayFormatter.Format(entry.Result)}");
+                }
+
+                if (_historyList.Items.Count > 0)
+                {
+                    // Keep the latest entry in view — feels more like a
+                    // running log than a static list when results stream in.
+                    _historyList.TopIndex = _historyList.Items.Count - 1;
+                }
+            }
+            finally
+            {
+                _historyList.EndUpdate();
+            }
         }
 
         // Builds the strip above the main display. While an operator is
