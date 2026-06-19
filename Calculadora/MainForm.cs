@@ -195,6 +195,28 @@ namespace Calculator
                 e.SuppressKeyPress = true;
                 return;
             }
+
+            // Operator keys. + and = share Shift on most layouts — checking
+            // the shift state disambiguates them. Slash and star double up
+            // for divide and multiply; numpad has dedicated keys for both.
+            BinaryOperator? op = e.KeyCode switch
+            {
+                Keys.Add => BinaryOperator.Add,
+                Keys.Subtract => BinaryOperator.Subtract,
+                Keys.OemMinus when !e.Shift => BinaryOperator.Subtract,
+                Keys.Multiply => BinaryOperator.Multiply,
+                Keys.Divide => BinaryOperator.Divide,
+                Keys.Oemplus when e.Shift => BinaryOperator.Add,
+                _ => null
+            };
+
+            if (op.HasValue)
+            {
+                ApplyOperator(op.Value);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
         }
 
         private void ShowEngineError(CalculationException error)
