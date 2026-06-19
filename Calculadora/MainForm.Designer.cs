@@ -64,6 +64,7 @@ namespace Calculator
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.KeyPreview = true;
+            this.BackColor = Theme.FormBackground;
             this.Text = "Calculator";
 
             // Signature strip across the top. Kept as a single label rather
@@ -78,6 +79,7 @@ namespace Calculator
             this._signatureLabel.Anchor = System.Windows.Forms.AnchorStyles.Top
                                         | System.Windows.Forms.AnchorStyles.Left
                                         | System.Windows.Forms.AnchorStyles.Right;
+            this._signatureLabel.ForeColor = Theme.MutedText;
             this.Controls.Add(this._signatureLabel);
 
             // Display panel — wraps the value and (later) the expression
