@@ -4,6 +4,8 @@ namespace Calculator
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label _signatureLabel = null!;
+        private System.Windows.Forms.Panel _displayPanel = null!;
+        private System.Windows.Forms.Label _displayLabel = null!;
 
         protected override void Dispose(bool disposing)
         {
@@ -47,6 +49,26 @@ namespace Calculator
                                         | System.Windows.Forms.AnchorStyles.Left
                                         | System.Windows.Forms.AnchorStyles.Right;
             this.Controls.Add(this._signatureLabel);
+
+            // Display panel — wraps the value and (later) the expression
+            // preview so we can paint a single background colour behind both.
+            this._displayPanel = new System.Windows.Forms.Panel();
+            this._displayPanel.Location = new System.Drawing.Point(10, 32);
+            this._displayPanel.Size = new System.Drawing.Size(370, 110);
+            this._displayPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this._displayPanel);
+
+            // Main display — the big right-aligned readout. Mono-derived
+            // Segoe UI Semibold makes digits the same width without losing
+            // the typographic warmth of the proportional default.
+            this._displayLabel = new System.Windows.Forms.Label();
+            this._displayLabel.Text = "0";
+            this._displayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._displayLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 32F, System.Drawing.FontStyle.Bold);
+            this._displayLabel.Location = new System.Drawing.Point(8, 36);
+            this._displayLabel.Size = new System.Drawing.Size(354, 66);
+            this._displayLabel.AutoEllipsis = true;
+            this._displayPanel.Controls.Add(this._displayLabel);
 
             this.ResumeLayout(false);
         }
