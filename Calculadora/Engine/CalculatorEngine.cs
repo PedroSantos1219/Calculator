@@ -41,6 +41,13 @@ namespace Calculator.Engine
         // fractional digit lands.
         private int _digitsTyped;
 
+        // Stores the most recent (operator, right-hand operand) pair so
+        // pressing "=" repeatedly keeps applying the same step. After
+        // 2 + 3 =, hitting "=" again should give 8, then 11, then 14...
+        private decimal _repeatOperand;
+        private BinaryOperator _repeatOperator;
+        private bool _hasRepeat;
+
         public CalculatorEngine()
         {
             _pendingOperator = BinaryOperator.None;
@@ -59,6 +66,9 @@ namespace Calculator.Engine
             _current = 0m;
             _accumulator = 0m;
             _pendingOperator = BinaryOperator.None;
+            _repeatOperand = 0m;
+            _repeatOperator = BinaryOperator.None;
+            _hasRepeat = false;
             _overwriteOnNextDigit = true;
             _hasDecimalPoint = false;
             _digitsTyped = 0;
@@ -132,15 +142,36 @@ namespace Calculator.Engine
         }
 
         // Evaluates the pending operation. Pressing "=" with no pending
-        // operator is a no-op — there is nothing to commit.
+        // operator but with a remembered last step re-applies that step, so
+        // 2 + 3 = = = walks through 5, 8, 11.
         public void Equals()
         {
-            if (_pendingOperator == BinaryOperator.None)
+            decimal left;
+            decimal right;
+            BinaryOperator op;
+
+            if (_pendingOperator != BinaryOperator.None)
+            {
+                left = _accumulator;
+                right = _current;
+                op = _pendingOperator;
+
+                _repeatOperand = right;
+                _repeatOperator = op;
+                _hasRepeat = true;
+            }
+            else if (_hasRepeat)
+            {
+                left = _current;
+                right = _repeatOperand;
+                op = _repeatOperator;
+            }
+            else
             {
                 return;
             }
 
-            decimal result = Evaluate(_accumulator, _current, _pendingOperator);
+            decimal result = Evaluate(left, right, op);
 
             _accumulator = result;
             _current = result;
