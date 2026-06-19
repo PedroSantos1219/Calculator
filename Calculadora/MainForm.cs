@@ -1,16 +1,34 @@
 using System;
 using System.Windows.Forms;
+using Calculator.Engine;
 
 namespace Calculator
 {
-    // Top-level shell for the application. Wiring between the UI controls and
-    // the calculation engine lives in this file; the engine itself is kept
-    // separate so it stays unit-testable without dragging WinForms along.
+    // Top-level shell for the application. Wires the UI controls (declared
+    // in MainForm.Designer.cs) to the calculation engine. The engine itself
+    // is in Calculator.Engine and stays UI-agnostic — this file is the only
+    // place WinForms talks to it.
     public partial class MainForm : Form
     {
+        // One engine instance lives for the lifetime of the form. It owns
+        // all calculator state (current entry, accumulator, memory,
+        // history) so the form stays a thin presenter.
+        private readonly CalculatorEngine _engine = new();
+
         public MainForm()
         {
             InitializeComponent();
+            RefreshDisplay();
+        }
+
+        // Pushes the latest engine state onto the visible controls. Called
+        // after every input that could change what the user is looking at.
+        // Centralising it removes the temptation to update half the display
+        // from one handler and the other half from another.
+        private void RefreshDisplay()
+        {
+            _displayLabel.Text = DisplayFormatter.Format(_engine.Display);
+            _memoryIndicator.Visible = _engine.HasMemory;
         }
     }
 }
