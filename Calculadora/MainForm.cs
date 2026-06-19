@@ -19,6 +19,11 @@ namespace Calculator
         {
             InitializeComponent();
             WireDigitButtons();
+            _decimalButton.Click += (_, _) =>
+            {
+                _engine.AppendDecimalPoint();
+                RefreshDisplay();
+            };
             RefreshDisplay();
         }
 
