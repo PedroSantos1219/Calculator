@@ -19,6 +19,11 @@ namespace Calculator
         private System.Windows.Forms.Button _squareButton = null!;
         private System.Windows.Forms.Button _reciprocalButton = null!;
 
+        private System.Windows.Forms.Button _clearEntryButton = null!;
+        private System.Windows.Forms.Button _clearButton = null!;
+        private System.Windows.Forms.Button _backspaceButton = null!;
+        private System.Windows.Forms.Button _divideButton = null!;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && components != null)
@@ -122,6 +127,14 @@ namespace Calculator
             this._squareRootButton = MakeGridButton("√", 1, 0);
             this._squareButton = MakeGridButton("x²", 2, 0);
             this._reciprocalButton = MakeGridButton("¹⁄ₓ", 3, 0);
+
+            // Edit / control row. CE/C/⌫ sit next to the divide so the user
+            // can rub out a mistake without their hand jumping to a far
+            // corner of the keypad.
+            this._clearEntryButton = MakeGridButton("CE", 0, 1);
+            this._clearButton = MakeGridButton("C", 1, 1);
+            this._backspaceButton = MakeGridButton("⌫", 2, 1);
+            this._divideButton = MakeGridButton("÷", 3, 1);
 
             this.ResumeLayout(false);
         }
