@@ -305,6 +305,37 @@ namespace Calculator.Engine
             _hasMemory = false;
         }
 
+        // M+. Adds the current entry to whatever is in memory (treating an
+        // empty memory as 0). The first M+ also lights up HasMemory.
+        public void MemoryAdd()
+        {
+            try
+            {
+                _memory = checked(_memory + _current);
+            }
+            catch (OverflowException ex)
+            {
+                throw new CalculationException("Overflow.", ex);
+            }
+
+            _hasMemory = true;
+        }
+
+        // M-. Subtracts the current entry from memory.
+        public void MemorySubtract()
+        {
+            try
+            {
+                _memory = checked(_memory - _current);
+            }
+            catch (OverflowException ex)
+            {
+                throw new CalculationException("Overflow.", ex);
+            }
+
+            _hasMemory = true;
+        }
+
         // Flips the sign of the current entry. Doesn't commit the value or
         // touch the pending operator — it's a display-only edit, the same
         // way the +/- key behaves on a physical calculator.
