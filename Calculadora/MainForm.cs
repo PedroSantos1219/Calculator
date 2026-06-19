@@ -25,6 +25,7 @@ namespace Calculator
             _clearEntryButton.Click += (_, _) => { _engine.ClearEntry(); RefreshDisplay(); };
             _backspaceButton.Click += (_, _) => { _engine.Backspace(); RefreshDisplay(); };
             WireUnaries();
+            WireMemoryButtons();
             _decimalButton.Click += (_, _) =>
             {
                 _engine.AppendDecimalPoint();
@@ -120,6 +121,18 @@ namespace Calculator
             }
 
             RefreshDisplay();
+        }
+
+        // Memory buttons share the unary error path because M+ and M- can
+        // overflow on the addition into the register. MC and MR can't throw
+        // but go through the same gate for symmetry.
+        private void WireMemoryButtons()
+        {
+            _memoryStoreButton.Click += (_, _) => RunUnary(_engine.MemoryStore);
+            _memoryRecallButton.Click += (_, _) => RunUnary(_engine.MemoryRecall);
+            _memoryClearButton.Click += (_, _) => RunUnary(_engine.MemoryClear);
+            _memoryAddButton.Click += (_, _) => RunUnary(_engine.MemoryAdd);
+            _memorySubtractButton.Click += (_, _) => RunUnary(_engine.MemorySubtract);
         }
 
         private void ShowEngineError(CalculationException error)
