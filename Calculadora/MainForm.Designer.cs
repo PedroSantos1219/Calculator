@@ -227,6 +227,11 @@ namespace Calculator
             button.Location = new System.Drawing.Point(10 + column * 95, 190 + row * 68);
             button.Size = new System.Drawing.Size(85, 60);
             button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            button.BackColor = Theme.DigitButton;
+            button.ForeColor = Theme.PrimaryText;
+            button.FlatAppearance.BorderColor = Theme.ButtonBorder;
+            button.FlatAppearance.BorderSize = 1;
+            button.FlatAppearance.MouseOverBackColor = Theme.DigitButtonHover;
             this.Controls.Add(button);
             return button;
         }
