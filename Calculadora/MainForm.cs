@@ -20,11 +20,27 @@ namespace Calculator
             InitializeComponent();
             WireDigitButtons();
             WireBinaryOperators();
+            _equalsButton.Click += (_, _) => CommitEquals();
             _decimalButton.Click += (_, _) =>
             {
                 _engine.AppendDecimalPoint();
                 RefreshDisplay();
             };
+            RefreshDisplay();
+        }
+
+        private void CommitEquals()
+        {
+            try
+            {
+                _engine.Equals();
+            }
+            catch (CalculationException ex)
+            {
+                ShowEngineError(ex);
+                return;
+            }
+
             RefreshDisplay();
         }
 
