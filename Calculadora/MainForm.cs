@@ -217,6 +217,18 @@ namespace Calculator
                 e.SuppressKeyPress = true;
                 return;
             }
+
+            // Enter and unshifted '=' both commit. Suppressing the keypress
+            // matters here — without it, Enter would trigger the focused
+            // button's default activation as well, producing a double tap.
+            if (e.KeyCode == Keys.Enter
+                || (e.KeyCode == Keys.Oemplus && !e.Shift))
+            {
+                CommitEquals();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                return;
+            }
         }
 
         private void ShowEngineError(CalculationException error)
