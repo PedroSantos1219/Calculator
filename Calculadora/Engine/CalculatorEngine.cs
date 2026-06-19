@@ -42,5 +42,25 @@ namespace Calculator.Engine
 
         // True while there's an operator waiting on a right-hand operand.
         public bool HasPendingOperator => _pendingOperator != BinaryOperator.None;
+
+        // Resets every piece of state — the "C" button.
+        public void Clear()
+        {
+            _current = 0m;
+            _accumulator = 0m;
+            _pendingOperator = BinaryOperator.None;
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+        }
+
+        // Clears only the value the user is typing — the "CE" button. Leaves
+        // the pending operator and accumulator intact so 5 + CE 7 = still
+        // yields 12.
+        public void ClearEntry()
+        {
+            _current = 0m;
+            _overwriteOnNextDigit = true;
+            _hasDecimalPoint = false;
+        }
     }
 }
