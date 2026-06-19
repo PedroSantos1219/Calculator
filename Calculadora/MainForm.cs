@@ -229,6 +229,33 @@ namespace Calculator
                 e.SuppressKeyPress = true;
                 return;
             }
+
+            // Control keys: Backspace trims the current entry, Delete behaves
+            // like CE (clear entry only), Escape behaves like C (full clear).
+            // Matches what most calculators on Windows have settled on.
+            switch (e.KeyCode)
+            {
+                case Keys.Back:
+                    _engine.Backspace();
+                    RefreshDisplay();
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    return;
+
+                case Keys.Delete:
+                    _engine.ClearEntry();
+                    RefreshDisplay();
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    return;
+
+                case Keys.Escape:
+                    _engine.Clear();
+                    RefreshDisplay();
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    return;
+            }
         }
 
         private void ShowEngineError(CalculationException error)
