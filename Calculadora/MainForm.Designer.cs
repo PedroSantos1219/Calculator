@@ -26,6 +26,7 @@ namespace Calculator
 
         private System.Windows.Forms.Button[] _digitButtons = new System.Windows.Forms.Button[10];
         private System.Windows.Forms.Button _multiplyButton = null!;
+        private System.Windows.Forms.Button _subtractButton = null!;
 
         protected override void Dispose(bool disposing)
         {
@@ -147,6 +148,12 @@ namespace Calculator
             this._digitButtons[8] = MakeGridButton("8", 1, 2);
             this._digitButtons[9] = MakeGridButton("9", 2, 2);
             this._multiplyButton = MakeGridButton("×", 3, 2);
+
+            // Digit row 4 5 6 with subtract.
+            this._digitButtons[4] = MakeGridButton("4", 0, 3);
+            this._digitButtons[5] = MakeGridButton("5", 1, 3);
+            this._digitButtons[6] = MakeGridButton("6", 2, 3);
+            this._subtractButton = MakeGridButton("−", 3, 3);
 
             this.ResumeLayout(false);
         }
